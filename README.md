@@ -2,6 +2,6 @@
 - pyglet
 
 ## features:
-- [ ] playing/stop music
+- [x] playing/stop music
 
 
