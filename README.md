@@ -1,7 +1,8 @@
 ## stack:
-- pyglet
+- python
+- pygame
 
 ## features:
-- [x] playing/stop music
-
-
+- [x] play/stop music
+- [ ] select music 
+- [ ] make playlist

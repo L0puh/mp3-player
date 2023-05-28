@@ -1,27 +1,29 @@
-import pyglet
-from pyglet.window import key
+from pygame import mixer
 
-file = "music.mp3"
+mixer.init()
+file = 'music.mp3'
 
-player = pyglet.media.Player()
-music = pyglet.resource.media(file)
-window = pyglet.window.Window()
-label = pyglet.text.Label(file, x=window.width//2, y=window.height//2,
-        anchor_x='center', anchor_y='center')
+mixer.music.load(file)
+mixer.music.play()
+is_paused = True
 
-@window.event
-def on_draw():
-    window.clear()
-    label.draw()
+def pause_music():
+    global is_paused
+    if is_paused:
+        mixer.music.unpause()
+        is_paused = False
+    else:
+        mixer.music.pause()
+        is_paused=True
 
-@window.event
-def on_key_press(symbol, modifiers):
-    player.queue(music)
-    if symbol == key.SPACE:
-        if player.playing:
-            player.pause()
-        else:
-            player.play()
+def start():
+    while True:
+        action=input()
+        if action=='p':
+            pause_music()
+        if action=='e':
+            mixer.music.stop()
+            break
 
-if '__main__' == __name__:
-    pyglet.app.run()
+if '__main__'==__name__:
+    start()
