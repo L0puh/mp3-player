@@ -1,12 +1,19 @@
 from pygame import mixer
+import os
 
 mixer.init()
-file = 'music.mp3'
+directory = 'music/'
 
-mixer.music.load(file)
-mixer.music.play()
 is_paused = False
 volume = mixer.music.get_volume()
+
+
+def choose_music():
+    songs=[i for i in os.listdir(directory)]
+    [print(f'{n+1}: {song}') for n, song in enumerate(songs)]
+    choice = songs[int(input())-1]
+    mixer.music.load(os.path.join(directory, choice))
+    mixer.music.play()
 
 def pause_music(action):
     global is_paused
@@ -31,6 +38,7 @@ def close(action):
 def start():
     while True:
         action=input()
+        if action=='c': choose_music()
         if close(action): break
         pause_music(action)
         manage_volume(action)
