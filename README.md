@@ -4,5 +4,5 @@
 
 ## features:
 - [x] play/stop music
-- [ ] select music 
-- [ ] make playlist
+- [x] select music 
+- [x] make playlist
