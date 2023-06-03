@@ -17,24 +17,26 @@ def choose_music():
     songs=[i for i in os.listdir(directory)]
     count =0
     for n, song in enumerate(songs):
-        text = font.render(f'{n+1}: {song}', False, white)
         count += 30
-        window.blit(text, (0, count))
+        print_text(f'{n+1}: {song}', (0, count))
     return songs
 
 def play_music(song):
     mixer.music.load(song)
     mixer.music.queue(song)
     mixer.music.play()
+    return
 
-def define_choice(songs):
-    keys = pygame.key.get_pressed()
-    for key_constant, pressed in enumerate(keys):
-        if pressed and key_constant-30 < len(songs) :
-            choice = key_constant-30
-            song = os.path.join(directory, songs[choice])
-            play_music(song)
-            break
+def define_choice(songs, event):
+    try:
+        choice = int(event.unicode)-1
+        play_music(os.path.join(directory, songs[choice]))
+    except:
+        print_text('opss', (0,0))
+
+def print_text(text, pos):
+    t = font.render(text, False, white)
+    window.blit(t, pos)
 
 def pause_music():
     global is_paused
@@ -46,16 +48,17 @@ def pause_music():
         is_paused=True
 
 def manage_volume(event):
-    if event == pygame.K_LEFT:
+    if event.key == pygame.K_LEFT:
         mixer.music.set_volume(volume-0.9)
-    elif event == pygame.K_RIGHT:
+    elif event.key == pygame.K_RIGHT:
         mixer.music.set_volume(volume+0.9)
 
 def get_action(event):
+    define_choice(choose_music(), event)
     manage_volume(event)
-    if event == pygame.K_q:
+    if event.key == pygame.K_q:
         playlist(directory)
-    elif event == pygame.K_SPACE:
+    elif event.key == pygame.K_SPACE:
         pause_music()
 
 def close(event):
@@ -68,9 +71,8 @@ def start():
         for event in pygame.event.get():
             close(event)
             if event.type == pygame.KEYDOWN:
-                get_action(event.key)
-
-        define_choice(choose_music())
+                get_action(event)
+        choose_music()
         pygame.display.update()
 
 if '__main__'==__name__:

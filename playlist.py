@@ -17,7 +17,7 @@ def next_song(folder):
         for event in pygame.event.get():
             close(event)
             if event.type == pygame.KEYDOWN:
-                get_action(event.key)
+                get_action(event)
             if event.type == pygame.USEREVENT:
                 if len (songs) > 0:
                     mixer.music.queue(os.path.join(folder, songs.pop()))
