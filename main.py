@@ -8,6 +8,7 @@ directory = 'music/'
 
 font = pygame.font.SysFont('Comic Sans', 30)
 white = (255,255,255)
+black = (0,0,0)
 
 window = pygame.display.set_mode((500, 500))
 is_paused = False
@@ -25,6 +26,7 @@ def play_music(song):
     mixer.music.load(song)
     mixer.music.queue(song)
     mixer.music.play()
+    print_text(f'{song} is playing', (0,0), black)
     return
 
 def define_choice(songs, event):
@@ -32,9 +34,11 @@ def define_choice(songs, event):
         choice = int(event.unicode)-1
         play_music(os.path.join(directory, songs[choice]))
     except:
-        print_text('opss', (0,0))
+        print_text('opss', (0,0), black)
 
-def print_text(text, pos):
+def print_text(text, pos, *fill):
+    if fill:
+        window.fill(fill)
     t = font.render(text, False, white)
     window.blit(t, pos)
 
